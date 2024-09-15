@@ -2,7 +2,6 @@
   <!-- Importing external JavaScript libraries for Backbone.js and WordPress API -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
   <script src="https://tributestream.com/wp-includes/js/wp-api.min.js"></script>
-
 </svelte:head>
 
 <!-- Custom CSS for the title and buttons -->
@@ -25,19 +24,26 @@
 </style>
 
 <script lang="ts">
-  import { Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
-  import { onMount } from 'svelte'; /* Svelte lifecycle function */
+  import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
+  import type { DrawerSettings, DrawerStore } from '@skeletonlabs/skeleton';
+  import { initializeStores} from '@skeletonlabs/skeleton';
+
+ 
+  /* Importing necessary components and functions from Skeleton UI library and other dependencies */
+  import CartDrawer from '$lib/components/CartDrawer.svelte'; /* Custom component for the cart drawer */
   import '../app.postcss'; /* Importing global styles */
   import { AppShell, AppBar } from '@skeletonlabs/skeleton';
-   import { page } from '$app/stores'; /* Svelte store for page data */
+  import { onMount } from 'svelte'; /* Svelte lifecycle function */
+  import { page } from '$app/stores'; /* Svelte store for page data */
   import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom'; /* Floating UI library for tooltip/pop-up positioning */
   import { storePopup } from '@skeletonlabs/skeleton'; /* Store for pop-up configurations */
-  import { goto } from '$app/navigation'; /* Function to navigate to a new page */
   
   /* Initialize stores for Skeleton UI components */
   initializeStores();
 
- 
+  /* Setting up drawer store and pop-up positioning logic */
+  const drawerStore = getDrawerStore();
+  storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
   /* Reactive variable to check login status */
   let isLoggedIn = false;
@@ -49,18 +55,20 @@
 
   /* Function to handle authentication actions */
   function handleAuthAction() {
-  if (isLoggedIn) {
-    // Navigate to account settings page
-    goto('/account-settings');
-  } else {
-    // Navigate to login page
-    goto('/login');
+    if (isLoggedIn) {
+      localStorage.removeItem('jwtToken'); /* Log out the user by removing JWT token */
+      isLoggedIn = false;
+    } else {
+      // Implement login logic or navigation to login page
+    }
   }
-}
 
+ 
+  
 </script>
 
-
+<!-- Drawer component for cart functionality -->
+<Drawer />
 
 <!-- AppShell component for structuring the app -->
 <AppShell>
@@ -89,32 +97,27 @@
                 <li><a href="/how-it-works" class="text-white hover:text-gray-300">How does it work?</a></li>
                 <li><a href="/contact" class="text-white hover:text-gray-300">Contact Us</a></li>
                 <li><a href="/schedule" class="text-white hover:text-gray-300">Schedule Now</a></li>
-<li>
-  {#if isLoggedIn}
-  
-    <!-- Login/Logout button -->
-    <button on:click={handleAuthAction} class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black">
-      {isLoggedIn ? 'Account Settings' : 'Login'}
-    </button>
-{/if}
-{#if !isLoggedIn}
-  
-<!-- Login/Logout button -->
-<button on:click={handleAuthAction} class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black">
-  {isLoggedIn ? 'Account Settings' : 'Login'}
-</button>
-{/if}
-           
-                    
-         
+                <li> | </li>
+                <!-- Cart button with an icon -->
+                <li>
+                  <button class="p-2 bg-transparent hover:bg-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" on:click={() => drawerStore.open(drawerSettings)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                 
+                </li>
+               </ul>
+            </nav>
             
+            <!-- Login/Logout button -->
+            <button on:click={handleAuthAction} class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black">
+              {isLoggedIn ? 'Logout' : 'Login'} <!-- Display 'Logout' if logged in, otherwise 'Login' -->
+            </button>
           </div>
-          
         </div>
-
       </svelte:fragment>
     </AppBar>
-    
   </svelte:fragment>
 
   <div class="min-w-screen">
@@ -164,7 +167,7 @@
           If you appreciated the service we provided you and your family, please consider leaving us a five-star review on Google!
         </p>
         <!-- Button for reviewing on Google -->
-        <button class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out">
+        <button class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black  hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out">
           Review Us
         </button>
       </div>

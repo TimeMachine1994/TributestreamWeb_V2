@@ -2,7 +2,6 @@
   <!-- Importing external JavaScript libraries for Backbone.js and WordPress API -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
   <script src="https://tributestream.com/wp-includes/js/wp-api.min.js"></script>
-
 </svelte:head>
 
 <!-- Custom CSS for the title and buttons -->
@@ -33,7 +32,6 @@
   import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom'; /* Floating UI library for tooltip/pop-up positioning */
   import { storePopup } from '@skeletonlabs/skeleton'; /* Store for pop-up configurations */
   import { goto } from '$app/navigation'; /* Function to navigate to a new page */
-  
   /* Initialize stores for Skeleton UI components */
   initializeStores();
 
@@ -109,12 +107,9 @@
          
             
           </div>
-          
         </div>
-
       </svelte:fragment>
     </AppBar>
-    
   </svelte:fragment>
 
   <div class="min-w-screen">

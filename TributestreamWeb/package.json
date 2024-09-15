@@ -46,6 +46,7 @@
   "type": "module",
   "dependencies": {
     "@floating-ui/dom": "1.6.11",
-    "highlight.js": "11.10.0"
+    "highlight.js": "11.10.0",
+    "backbone": "^1.6.0"
   }
 }
