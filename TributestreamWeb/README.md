@@ -1,38 +1,90 @@
-# create-svelte
+Welcome to the TributestreamWeb development branch.
+We are working to build the future of Memorial Web Interfaces.
+Open TributestreamWeb, run npm install wait, then npm run dev, and check it out.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+                             .-""""-.
+                           .'        '.
+                          /            \
+                         |              |
+                         |,  .-.  .-.  ,|
+                         | )(__/  \__)( |
+                         |/     /\     \|
+                         (_     ^^     _)
+                          \__|IIIIII|__/
+                           | \IIIIII/ |
+                           \          /
+                            `--------`
+                                ||
+                                ||
+                              __||__
+                            .'  ||  '.
+                           /    ||    \
+                          |     ||     |
+                          |     ||     |
+                          |     ||     |
+                          |     ||     |
+                          |____ || ____|
+                                ||
+                              __||__
+                          .-"'      `"-.
+                        .'              '.
+                       /     R.I.P.       \
+                      |                    |
+                      |   In Loving Memory |
+                      |                    |
+                      |      * * * *       |
+                      |                    |
+                      |____________________|
+                            /        \
+                           /          \
+                          /            \
+                         /              \
+                        /________________\
+                        |                |
+                        |                |
+                        |________________|
+                               ||  ||
+                               ||  ||
+                           ~~~~~~~~~~~~~
+                          ~~~~~~~~~~~~~~~~
+                        ~~~~~~~~~~~~~~~~~~~~
+                      ~~~~~~~~~~~~~~~~~~~~~~~~
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                         .------.       .------.
+                       .'        '.   .'        '.
+                      /            \ /            \
+                     |              |              |
+                     |    O     O   |   O     O    |
+                     |      __      |     ____     |
+                     |    \____/    |    \____/    |
+                     |              |              |
+                     |______________|______________|
+                               ||                      🌙
+                               ||
 
-## Creating a project
+*******************
+Current To Do List:
+*******************
+- Fix the font on the site
+- Learn how to store media to cloud flare for the background video
+- Add better error logging for the user sign in page
+- Fix the colors on the search page
+- Complete the user dashboard
+- Create a page for the funeral director to submit feedback
+- update the main tributestream website
+- Update the footer on the custom link page
+- Redo the tempalte for the custom link page
+- QC all Links and Functions
+- Migrate Wordpress to Cloudflare by Oct. 15 
 
-If you're seeing this, you've probably already done this step. Congrats!
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+**************************
+Current status report log:
+**************************
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+9-15-2024 
+Successfully deployed project to cloudflare.

@@ -4,6 +4,7 @@
 
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+	import { link } from 'fs';
     
     // State variables
     let generatedPassword = '';
@@ -18,7 +19,7 @@
     let tempSlugifiedName = '';
     let isBlurred = false;
     let searchQuery = '';
-     let shouldSearch = false;
+    let shouldSearch = false;
 
     // API base URL
     const API_BASE_URL = 'https://tributestream.com/wp-json';
@@ -395,22 +396,29 @@
 <main> 
 
 <section class="relative bg-gray-900 text-white">
-    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0" class:blurred={isBlurred}>
+   <!-- <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0" class:blurred={isBlurred}>
         <source src="../../videos/video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-    </video>
+    </video>-->
     <div class="absolute inset-0 bg-black opacity-50 z-10"></div>  
     <div class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8">
-        <h1 class="text-4xl md:text-6xl font-bold text-center mb-4">
-       Tributestream
+        <h1 class="text-4xl md:text-6xl text-center mb-4">
+       Celebrate Life Online 
         </h1> 
    
          <p class="text-center mb-8 text-lg md:text-xl">
             
             {#if !showSecondPage}
-            <i>Connecting with Loved Ones In Heaven and On Earth</i>
             
+            Tributestream's Testimony of Love Makes Hearts Full.  
+            Memoralize the legacy by entering your loved one's name below 
+            <!--Tributestream brings together your families tesitmony of love into one neat package. <br> <i>
+            Tributestream brings closure now.<br> A window to the past, to which we all avow. <br>
+            Relearn powerful lessons time can't dim,<br>
+            and embrace the love that flows from within.
+          </i>-->
 
+             
             {:else}
                 Your Loved One's Custom Link:
             {/if}
