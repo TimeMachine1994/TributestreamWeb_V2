@@ -33,7 +33,9 @@
   import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom'; /* Floating UI library for tooltip/pop-up positioning */
   import { storePopup } from '@skeletonlabs/skeleton'; /* Store for pop-up configurations */
   import { goto } from '$app/navigation'; /* Function to navigate to a new page */
-  
+  import 'dotenv/config';
+  console.log(process.env) // remove this after you've confirmed it is working
+
   /* Initialize stores for Skeleton UI components */
   initializeStores();
 
