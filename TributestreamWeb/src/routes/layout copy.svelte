@@ -43,7 +43,6 @@
 
   /* Reactive variable to check login status */
   let isLoggedIn = false;
-  const drawerStore = getDrawerStore();
 
   /* onMount lifecycle function to check if the user is logged in */
   onMount(() => {
@@ -67,17 +66,17 @@
     /* Drawer settings specifying the ID and position */
     const settings: DrawerSettings = { id: 'mobile-menu', position: 'right' };
     /* Open the drawer with the specified settings */
-    drawerStore.open(settings);
+    getDrawerStore.open(settings);
   }
 </script>
 
 <!-- Drawer Component for Mobile Navigation -->
 <Drawer>
-  {#if $drawerStore.id === 'mobile-menu'}
+  {#if $getDrawerStore.id === 'mobile-menu'}
     <!-- Drawer Contents -->
     <div class="p-4">
       <!-- Close Button -->
-      <button class="focus:outline-none mb-4" on:click={drawerStore.close}>
+      <button class="focus:outline-none mb-4" on:click={getDrawerStore.close}>
         <!-- Close Icon SVG -->
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
@@ -88,29 +87,29 @@
       <!-- Navigation Menu Items -->
       <ul class="space-y-4">
         <li>
-          <a href="/why-tributestream" class="text-black hover:text-gray-700" on:click={drawerStore.close}>
+          <a href="/why-tributestream" class="text-black hover:text-gray-700" on:click={getDrawerStore.close}>
             Why Tributestream?
           </a>
         </li>
         <li>
-          <a href="/how-it-works" class="text-black hover:text-gray-700" on:click={drawerStore.close}>
+          <a href="/how-it-works" class="text-black hover:text-gray-700" on:click={getDrawerStore.close}>
             How does it work?
           </a>
         </li>
         <li>
-          <a href="/contact" class="text-black hover:text-gray-700" on:click={drawerStore.close}>
+          <a href="/contact" class="text-black hover:text-gray-700" on:click={getDrawerStore.close}>
             Contact Us
           </a>
         </li>
         <li>
-          <a href="/schedule" class="text-black hover:text-gray-700" on:click={drawerStore.close}>
+          <a href="/schedule" class="text-black hover:text-gray-700" on:click={getDrawerStore.close}>
             Schedule Now
           </a>
         </li>
         <li>
           <!-- Login/Account Settings Button -->
           <button
-            on:click={() => { handleAuthAction(); drawerStore.close(); }}
+            on:click={() => { handleAuthAction(); getDrawerStore.close(); }}
             class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black"
           >
             {isLoggedIn ? 'Account Settings' : 'Login'}
