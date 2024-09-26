@@ -5,8 +5,10 @@ export const tributestreamTheme01: CustomThemeConfig = {
     name: 'tributestream-theme-01',
     properties: {
 		// =~= Theme Properties =~=
-		"--theme-font-family-base": `ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif`,
-		"--theme-font-family-heading": `ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif`,
+ 
+
+		"--theme-font-family-base": `'ABeeZee', sans-serif`,
+		"--theme-font-family-heading": `'ABeeZee', sans-serif`,
 		"--theme-font-color-base": "0 0 0",
 		"--theme-font-color-dark": "255 255 255",
 		"--theme-rounded-base": "9999px",

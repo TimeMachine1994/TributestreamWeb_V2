@@ -5,7 +5,9 @@
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
 	import { link } from 'fs';
-    
+	import { EventEmitterAsyncResource } from 'events';
+	import { setFlagsFromString } from 'v8';
+     
     // State variables
     let generatedPassword = '';
     let lovedOneName = '';
@@ -396,22 +398,23 @@
 <main> 
 
 <section class="relative bg-gray-900 text-white">
-   <!-- <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0" class:blurred={isBlurred}>
-        <source src="../../videos/video.mp4" type="video/mp4" />
+ <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0" class:blurred={isBlurred}>
+        <source src="https://pub-f5d8194fe58b4bb69fc710f4fecb334f.r2.dev/video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
-    </video>-->
+    </video>
     <div class="absolute inset-0 bg-black opacity-50 z-10"></div>  
-    <div class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8">
-        <h1 class="text-4xl md:text-6xl text-center mb-4">
-       Celebrate Life Online 
+
+    <div class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8 font-['Fanwood_Text']">
+        <h1 class="text-4xl md:text-6xl text-center mb-4 ">
+       We Make Hearts Full Again
         </h1> 
    
          <p class="text-center mb-8 text-lg md:text-xl">
             
             {#if !showSecondPage}
             
-            Tributestream's Testimony of Love Makes Hearts Full.  
-            Memoralize the legacy by entering your loved one's name below 
+            Tributestream broadcasts high quality audio and video of your loved one's celebartion of life. <br> 
+            Enter your loved ones name below to begin your journey with Tributestream. 
             <!--Tributestream brings together your families tesitmony of love into one neat package. <br> <i>
             Tributestream brings closure now.<br> A window to the past, to which we all avow. <br>
             Relearn powerful lessons time can't dim,<br>
@@ -428,7 +431,7 @@
             {#if !showSecondPage}
                 <input
                     type="text"
-                    placeholder="Enter Your Loved One's Name Here"
+                    placeholder="Loved One's Name Here"
                     class="w-full px-4 py-2 text-gray-900 rounded-md mb-4 text-center"
                     bind:value={lovedOneName}
                 />

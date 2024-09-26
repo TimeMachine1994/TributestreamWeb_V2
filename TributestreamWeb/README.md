@@ -68,9 +68,9 @@ Open TributestreamWeb, run npm install wait, then npm run dev, and check it out.
 *******************
 Current To Do List:
 *******************
-- Fix the font on the site
+x Fix the font on the site
 x Learn how to store media to cloud flare for the background video
-- setup dot ENV to get video to load.
+x setup dot ENV to get video to load.
 - Add better error logging for the user sign in page
 - Fix the colors on the search page
 - Complete the user dashboard
