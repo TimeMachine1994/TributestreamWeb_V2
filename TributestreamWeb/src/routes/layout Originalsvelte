@@ -118,7 +118,7 @@
       </ul>
     </div>
   {/if}
-</Drawer>
+  <Drawer>
 
 <!-- Header Section -->
 <header class="bg-black text-white">

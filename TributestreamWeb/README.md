@@ -86,6 +86,8 @@ x setup dot ENV to get video to load.
 Current status report log:
 **************************
 
+9-28-2024
+Successfully made a drawer for mobile 
 
 9-15-2024 
 Successfully deployed project to cloudflare.
