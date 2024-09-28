@@ -1,7 +1,9 @@
 <script lang="ts">
+    
+    //*************/ START import statements and variables /**************/
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-  
+
     // State variables
     let lovedOneName = '';
     let userName = '';
@@ -13,13 +15,17 @@
     let isEditing = false;
     let tempSlugifiedName = '';
     let isBlurred = false;
-  
+    
     // API base URL
     const API_BASE_URL = 'https://tributestream.com/wp-json';
-  
+
+    //*************/ END import statements and variables /**************/
+
+    //*************/ START slugify text /**************/
+
     // Function to slugify text
     function slugify(text: string): string {
-      return text
+        return text
         .toString()
         .toLowerCase()
         .replace(/\s+/g, '-')
@@ -32,6 +38,12 @@
     // Reactive statement to update slugifiedName when lovedOneName changes
     $: slugifiedName = slugify(lovedOneName);
   
+
+    //*************/ END slugify text /**************/
+
+
+    //*************/ START generate password and validate JWT token function and register user function /**************/
+
     // Function to generate a random password
     function generateRandomPassword(): string {
       return Math.random().toString(36).slice(-8);
@@ -41,14 +53,7 @@
     function isValidJWT(token: string): boolean {
       return token && token.split('.').length === 3;
     }
-  
-    // Function to handle the search and redirect to the results page
-    function handleSearch() {
-      if (lovedOneName.trim()) {
-        goto(`/search?q=${encodeURIComponent(lovedOneName)}`);
-      }
-    }
-  
+  //LEFT OFF HERE REORGANIZING CODE SPACING AND ADDING COMMENTS
     // Function to register a user
     async function registerUser(): Promise<string> {
       const generatedPassword = generateRandomPassword();
@@ -117,6 +122,22 @@
       }
     }
   
+    //*************/ END generate password and validate JWT token function /**************/
+
+    //*************/ START handle serarch and redirect to the results page /**************/
+
+    // Function to handle the search and redirect to the results page
+    function handleSearch() {
+      if (lovedOneName.trim()) {
+        goto(`/search?q=${encodeURIComponent(lovedOneName)}`);
+      }
+    }
+    
+    //*************/ END handle search and redirect to the results page /**************/
+
+    //*************/ START create page and link /**************/
+
+
     // Function to create a page
     async function createPage(token: string): Promise<number> {
       if (!isValidJWT(token)) {
@@ -180,8 +201,14 @@
       } catch (err) {
         error = 'An error occurred while creating the link';
       }
+
     }
-  
+
+    //*************/ END create page and link /**************/
+
+    
+    //*************/ START handle form data input /**************/
+
     // Function to handle moving to the next page
     function handleNextPage() {
       showSecondPage = true;
@@ -210,16 +237,24 @@
       showSecondPage = false;
       isBlurred = false;
     }
-  
+      //*************/ END handle form data input/**************/
+
+
+
+
     // Lifecycle hook
     onMount(() => {
       // Component mounted
     });
-  </script>
+
+
+</script>
   
-  <!-- The rest of your HTML remains unchanged -->
-  
+ 
   <style>
+
+    /************* START Custom CSS for the first page - Glow button and old stuff (box an letter but we'll keep it for now.) /**************/
+
     @import url('https://fonts.googleapis.com/css2?family=Harrington');
   
     /* Container for the bordered box */
@@ -273,24 +308,32 @@
       filter: blur(10px);
       transition: filter 0.3s ease-in-out;
     }
+
+    /************* STOP Custom CSS for the first page - Glow button, blur background, and some old stuff (box and letter but we'll keep it for now.) /**************/
+
   </style>
   
   <main>
     <section class="relative bg-gray-900 text-white">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        class="absolute inset-0 w-full h-full object-cover z-0"
-        class:blurred={isBlurred}
-      >
-        <source
-          src="https://pub-f5d8194fe58b4bb69fc710f4fecb334f.r2.dev/video.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+
+            <video
+            autoplay
+            muted
+            loop
+            playsinline
+            class="absolute inset-0 w-full h-full object-cover z-0"
+            class:blurred={isBlurred}
+            >
+
+            <source
+                src="https://pub-f5d8194fe58b4bb69fc710f4fecb334f.r2.dev/video.mp4"
+                type="video/mp4"
+                />
+
+
+            Your browser does not support the video tag.
+        </video>
+
       <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
   
       <div
