@@ -5,6 +5,7 @@
   <!-- Importing external JavaScript libraries for Backbone.js and WordPress API -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
   <script src="https://tributestream.com/wp-includes/js/wp-api.min.js"></script>
+  
 </svelte:head>
 
 <!-- Styles -->
@@ -40,7 +41,8 @@
     import type { DrawerSettings } from '@skeletonlabs/skeleton'; /* Type-only import for DrawerSettings */
     import { goto } from '$app/navigation'; /* Function to navigate to a new page */
     import '../app.postcss'; /* Importing global styles */
-   
+    import '@fortawesome/fontawesome-free/css/all.min.css'
+
 /*********** START Intialize stores and drawer ***********/
     initializeStores();
 

@@ -72,12 +72,12 @@ x Fix the font on the site
 x Learn how to store media to cloud flare for the background video
 x setup dot ENV to get video to load.
 - Add better error logging for the user sign in page
-- Fix the colors on the search page
+x Fix the colors on the search page
 - Complete the user dashboard
 - Create a page for the funeral director to submit feedback
 - update the main tributestream website
 - Update the footer on the custom link page
-- Redo the tempalte for the custom link page
+-> Redo the tempalte for the custom link page
 - QC all Links and Functions
 - Migrate Wordpress to Cloudflare by Oct. 15 
 
@@ -85,6 +85,8 @@ x setup dot ENV to get video to load.
 **************************
 Current status report log:
 **************************
+
+9-30-2024 fixed colors on search page and now working a better template, then a user dashboard. WHere is the tempalte? Also we gotta install fontawesome from now on. 
 
 9-28-2024
 Successfully made a drawer for mobile 

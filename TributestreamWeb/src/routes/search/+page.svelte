@@ -57,7 +57,8 @@
                 placeholder="Refine your search..."
                 class="w-full p-2 border border-gray-300 rounded-md"
             />
-            <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+            <button type="submit"   class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
+            >
                 Search
             </button>
         </form>

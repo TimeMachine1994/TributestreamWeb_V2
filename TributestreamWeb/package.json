@@ -48,8 +48,14 @@
     "@aws-sdk/client-s3": "^3.651.1",
     "@aws-sdk/s3-request-presigner": "^3.651.1",
     "@floating-ui/dom": "1.6.11",
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "backbone": "^1.6.0",
     "dotenv": "^16.4.5",
+    "font-awesome": "^4.7.0",
     "highlight.js": "11.10.0",
     "svrollbar": "^0.12.0"
   }

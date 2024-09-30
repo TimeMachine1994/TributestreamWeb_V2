@@ -6,6 +6,18 @@
     let phoneNumber = userData.phone_number || '';
     let customLink = userData.custom_link || '';
     let password = '********'; // Placeholder for security
+  // Function to handle form submission (currently placeholder)
+  function handleSubmit() {
+    // Implement logic to save the form changes (API call)
+    console.log('Form submitted');
+  }
+
+  // Function to handle logout
+  function handleLogout() {
+    localStorage.removeItem('jwtToken'); // Clear the token
+    window.location.href = '/login'; // Redirect to login page
+  }
+    
 </script>
 
 
@@ -29,8 +41,8 @@
             <input type="password" id="password" bind:value={password} class="w-full p-2 border rounded" readonly />
             <button type="button" class="mt-2 text-blue-500">Change Password</button>
         </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+        <button type="submit"   class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out">Save Changes</button>
     </form>
-    <button type="button" on:click={handleLogout} class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Log Out</button>
+    <button type="button" on:click={handleLogout} class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out">Log Out</button>
     
 </main>
