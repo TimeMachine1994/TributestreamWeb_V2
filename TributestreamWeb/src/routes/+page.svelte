@@ -313,8 +313,8 @@
 
   </style>
   
-  <main>
-    <section class="relative bg-gray-900 text-white">
+  <main class="overflow-hidden">
+    <section class="relative bg-gray-900 text-white overf">
 
             <video
             autoplay

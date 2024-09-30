@@ -27,6 +27,10 @@
     top: -8px; /* Adjusting vertical position */
     left: 5px; /* Adjusting horizontal position */
   }
+
+  /* Scrollbar customizations */
+ 
+  
 </style>
 
 <script lang="ts">
@@ -76,7 +80,7 @@
 
 
 
-    </script>
+</script>
     
 <!--*********** START Drawer Component Logic **********-->
 
@@ -127,10 +131,9 @@
           </li>
         </ul>
       </div>
-     </Drawer>
+</Drawer>
 
 <!--*********** END Drawer Component Logic **********-->
-
 
  
 <!-- Header Section -->
@@ -188,15 +191,15 @@
         </svg>
       </button>
     </div>
-  </header>
-  
-  <!-- Main Content -->
-  <main class="min-w-screen">
-    <!-- Slot for rendering the content of the current page route -->
-    <slot />
-  </main>
-  
-  <!-- Footer Section -->
+</header>
+
+
+     <!-- Main Content -->
+<main class="min-w-screen min-h-screen overflow-y-auto">
+<!-- Slot for rendering the content of the current page route -->
+  <slot />
+</main>
+   <!-- Footer Section -->
   <footer class="bg-black text-white py-12">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
       <!-- Logo and Brief Description -->
@@ -261,4 +264,4 @@
       </p>
     </div>
   </footer>
-  
+ 

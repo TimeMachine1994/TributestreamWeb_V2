@@ -50,6 +50,7 @@
     "@floating-ui/dom": "1.6.11",
     "backbone": "^1.6.0",
     "dotenv": "^16.4.5",
-    "highlight.js": "11.10.0"
+    "highlight.js": "11.10.0",
+    "svrollbar": "^0.12.0"
   }
 }
