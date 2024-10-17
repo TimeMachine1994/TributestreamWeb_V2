@@ -56,7 +56,7 @@
   // Function to validate JWT token
   function isValidJWT(token: string): boolean {
     return token && token.split('.').length === 3;
-  }
+  } 
 //*************/  START register user  /*************/
 
 //Function to register a user
@@ -187,39 +187,56 @@
 
   // Function to handle creating a link
   async function handleCreateLink() {
+  // Reset error states
+  nameError = '';
+  emailError = '';
+  phoneError = '';
+  error = '';  // General error message
+
+  // Validate form fields before submission
   if (!validateFields()) {
     // Trigger shake animation for invalid fields
     setTimeout(() => {
-      nameError = emailError = phoneError = '';
+      nameError = emailError = phoneError = '';  // Clear individual field errors
       setTimeout(() => {
-        validateFields();
+        validateFields();  // Revalidate to show errors
       }, 10);
     }, 0);
     return;
-  }    error = '';
-    try {
-      const password = await registerUser();
-      const token = await loginUser(userName, password);
-      const pageId = await createPage(token);
-
-      // Fetch created page data
-      const response = await fetch(`${API_BASE_URL}/wp/v2/pages/${pageId}`);
-      const page = await response.json();
-
-      // Redirect to the page using the slug
-      if (page.slug) {
-        window.location.href = `https://tributestream.com/celebration-of-life-for${page.slug}`;
-      } else {
-        error = 'Slug not found';
-      }
-    } catch (err) {
-      error = 'An error occurred while creating the link';
-    }
-    finally {
-      isLoading = false; // Set loading state to false after the operation is complete
-    }
-
   }
+
+  isLoading = true; // Set loading state to true while processing
+  try {
+    const password = await registerUser();  // Register the user
+    const token = await loginUser(userName, password);  // Log the user in and get token
+    const pageId = await createPage(token);  // Create the tribute page
+
+    // Fetch created page data
+    const response = await fetch(`${API_BASE_URL}/wp/v2/pages/${pageId}`);
+    const page = await response.json();
+
+    // Redirect to the page using the slug
+    if (page.slug) {
+      window.location.href = `https://tributestream.com/${page.slug}`;
+    } else {
+      error = 'Slug not found';  // Set general error if slug is not found
+    }
+
+  } catch (err) {
+    // Parse specific errors and display meaningful messages
+    if (err.message && err.message.includes('email')) {
+      emailError = 'This email is already registered. Please use another email or log in.';
+    } else if (err.message && err.message.includes('username')) {
+      nameError = 'This username is already taken. Please choose another username.';
+    } else {
+      // Fallback for generic errors
+      error = err.message || 'An error occurred while creating the link';
+    }
+  } finally {
+    isLoading = false;  // Set loading state to false after processing
+  }
+}
+
 
   //*************/ END create page and link /**************/
 
@@ -442,7 +459,7 @@ function handleNextPage() {
 
   <!-- START first page -->
   {#if !showSecondPage}
-  <form>
+  <form on:submit|preventDefault={handleNextPage}> 
     <div class="flex flex-col items-center justify-center mb-4 ">
     Tributestream broadcasts high quality audio and video of your loved
     one's celebration of life. <br />
@@ -457,10 +474,11 @@ function handleNextPage() {
   class:shake={isInvalid}
   bind:value={lovedOneName}
 />
-
+{#if error}
+<p class="error-text">{error}</p>
+{/if}
   <div class="flex space-x-4 justify-center">
-    <button
-      on:click={handleNextPage}
+    <button type="submit"
       class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
       >
       Create Tribute
@@ -524,7 +542,7 @@ function handleNextPage() {
       bind:value={userName}
     />
     {#if nameError}
-      <p class="text-red-500 mt-2 mb-4">{nameError}</p>
+       <p class="error-text">{nameError}</p>
     {/if}
     
     <input
@@ -536,7 +554,7 @@ function handleNextPage() {
       bind:value={userEmail}
     />
     {#if emailError}
-      <p class="text-red-500 mt-2 mb-4">{emailError}</p>
+       <p class="error-text">{emailError}</p>
     {/if}
     
     <input
@@ -548,7 +566,7 @@ function handleNextPage() {
       bind:value={userPhone}
     />
     {#if phoneError}
-      <p class="text-red-500 mt-2 mb-4">{phoneError}</p>
+    <p class="error-text">{phoneError}</p>
     {/if}
       <div class="flex justify-between items-center">
         <button
@@ -560,12 +578,7 @@ function handleNextPage() {
         </button>
  
         <!-- Conditionally show the throbber or the button -->
-        {#if isLoading}
-           <div class="spinner-border text-yellow-500" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
- 
-        {:else}
+        
            <button
             type="button"
             on:click={handleCreateLink}
@@ -574,8 +587,7 @@ function handleNextPage() {
             See Custom Link
           </button>
  
-        {/if}
-      </div>
+       </div>
   
       {#if error}
         <p class="text-red-500 mt-4">{error}</p>
