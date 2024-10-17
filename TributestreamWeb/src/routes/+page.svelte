@@ -16,9 +16,12 @@
   let tempSlugifiedName = '';
   let isBlurred = false;
   let isLoading = false; // New variable to track the loading state
+  let nameError = '';
+  let emailError = '';
+  let phoneError = '';
 
   // API base URL
-  const API_BASE_URL = 'https://tributestream.com/wp-json';
+  const API_BASE_URL = 'https://127.0.0.1:8080/wp-json';
 
   //*************/ END import statements and variables /**************/
 
@@ -184,9 +187,16 @@
 
   // Function to handle creating a link
   async function handleCreateLink() {
-
-
-    error = '';
+  if (!validateFields()) {
+    // Trigger shake animation for invalid fields
+    setTimeout(() => {
+      nameError = emailError = phoneError = '';
+      setTimeout(() => {
+        validateFields();
+      }, 10);
+    }, 0);
+    return;
+  }    error = '';
     try {
       const password = await registerUser();
       const token = await loginUser(userName, password);
@@ -198,7 +208,7 @@
 
       // Redirect to the page using the slug
       if (page.slug) {
-        window.location.href = `https://tributestream.com/celebration-of-life-for${page.slug}`;
+        window.location.href = `https://127.0.0.1:8080/celebration-of-life-for${page.slug}`;
       } else {
         error = 'Slug not found';
       }
@@ -217,10 +227,27 @@
   //*************/ START handle form data input /**************/
 
   // Function to handle moving to the next page
-  function handleNextPage() {
+  let isInvalid = false;
+
+function handleNextPage() {
+  if (lovedOneName.trim()) {
     showSecondPage = true;
     isBlurred = true;
+    isInvalid = false;
+    error = '';
+  } else {
+    isInvalid = true;
+    error = "Please enter your loved one's name";
+    // Trigger shake animation
+    setTimeout(() => {
+      isInvalid = false;
+      setTimeout(() => {
+        isInvalid = true;
+      }, 10);
+    }, 0);
   }
+}
+
 
   // Function to handle editing the name
   function handleEditName() {
@@ -246,6 +273,32 @@
   }
     //*************/ END handle form data input/**************/
 
+    function validateFields() {
+  let isValid = true;
+
+  if (!userName.trim()) {
+    nameError = 'Please enter your name';
+    isValid = false;
+  } else {
+    nameError = '';
+  }
+
+  if (!userEmail.trim()) {
+    emailError = 'Please enter your email address';
+    isValid = false;
+  } else {
+    emailError = '';
+  }
+
+  if (!userPhone.trim()) {
+    phoneError = 'Please enter your phone number';
+    isValid = false;
+  } else {
+    phoneError = '';
+  }
+
+  return isValid;
+}
 
 
 
@@ -334,6 +387,20 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  .shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .invalid-input {
+    border: 2px solid red;
+  }
 </style>
 <!-- START video background section -->
 <main class="overflow-hidden">
@@ -358,93 +425,131 @@
     <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
   <!-- END video background section -->
 
+
+  <!-- START hero header text-->
+
   <div
     class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8 font-['Fanwood_Text']"
   >
   <h1 class="text-4xl md:text-6xl text-center mb-4">
-    We Make Hearts Full Again
+    We Connect Families, One Link at a Time.
   </h1>
 
   <p class="text-center mb-8 text-lg md:text-xl">
-    {#if !showSecondPage}
-      Tributestream broadcasts high quality audio and video of your loved
-      one's celebration of life. <br />
-      Enter your loved one's name below to begin your journey with
-      Tributestream.
-    {:else}
-      Your Loved One's Custom Link:
-    {/if}
-  </p>
-  <form class="w-full max-w-md">
-    {#if !showSecondPage}
-      <input
-        type="text"
-        placeholder="Loved One's Name Here"
-        class="w-full px-4 py-2 text-gray-900 rounded-md mb-4 text-center"
-        bind:value={lovedOneName}
-      />
-      <div class="flex space-x-4 justify-center">
-        <button
-          on:click={handleNextPage}
-          class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
-        >
-          Create Tribute
-        </button>
-        <button
-          on:click={() => {
-            handleSearch();
-            showSecondPage = true;
-          }}
-          class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
-        >
-          Search Streams
-        </button>
-      </div>
-    {:else}
-      <div class="flex items-center justify-center mb-4">
-        <span class="text-white">
-          http://www.Tributestream.com/celebration-of-life-for-
-        </span>
+  <!-- END hero header text-->
+
+
+
+  <!-- START first page -->
+  {#if !showSecondPage}
+  <form>
+    <div class="flex flex-col items-center justify-center mb-4 ">
+    Tributestream broadcasts high quality audio and video of your loved
+    one's celebration of life. <br />
+    Enter your loved one's name below to begin your journey with
+    Tributestream.
+  </div>
+  <input
+  type="text"
+  placeholder="Loved One's Name Here"
+  class="w-full px-4 py-2 text-gray-900 rounded-md mb-4 text-center max-w-md"
+  class:invalid-input={isInvalid}
+  class:shake={isInvalid}
+  bind:value={lovedOneName}
+/>
+
+  <div class="flex space-x-4 justify-center">
+    <button
+      on:click={handleNextPage}
+      class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
+      >
+      Create Tribute
+    </button>
+    <button
+      on:click={() => {
+      handleSearch();
+      showSecondPage = true;
+      }}
+      class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
+      >
+      Search Streams
+      </button>
+    </div>
+  </form>
+  <!-- END first page -->
+
+  {:else}
+
+      <!-- START second page -->
+    <div class=""> Your Loved One's Custom Link:</div>
+    <div class="flex items-center justify-center mb-4">
+      <span class="text-white">
+        http://www.127.0.0.1:8080/celebration-of-life-for-
+      </span>
         {#if isEditing}
-          <input
+           <input
             type="text"
             class="px-2 py-1 text-gray-900 rounded-md"
             bind:value={tempSlugifiedName}
-          />
+          />          
+ 
         {:else}
           <span class="text-white">{slugifiedName}</span>
         {/if}
         {#if isEditing}
+        
+
           <button class="ml-2 text-green-500" on:click={handleSaveNameChange}>
             <i class="fas fa-check"></i>
           </button>
           <button class="ml-2 text-red-500" on:click={handleDiscardNameChange}>
             <i class="fas fa-times"></i>
           </button>
+ 
         {:else}
+ 
           <button class="ml-2 text-white" on:click={handleEditName}>
             <i class="fas fa-pencil-alt"></i>
           </button>
+ 
         {/if}
+ 
       </div>
       <input
-        type="text"
-        placeholder="Your Name"
-        class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-        bind:value={userName}
-      />
-      <input
-        type="email"
-        placeholder="Email Address"
-        class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-        bind:value={userEmail}
-      />
-      <input
-        type="tel"
-        placeholder="Phone Number"
-        class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-        bind:value={userPhone}
-      />
+      type="text"
+      placeholder="Your Name"
+      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+      class:invalid-input={nameError}
+      class:shake={nameError}
+      bind:value={userName}
+    />
+    {#if nameError}
+      <p class="text-red-500 mt-2 mb-4">{nameError}</p>
+    {/if}
+    
+    <input
+      type="email"
+      placeholder="Email Address"
+      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+      class:invalid-input={emailError}
+      class:shake={emailError}
+      bind:value={userEmail}
+    />
+    {#if emailError}
+      <p class="text-red-500 mt-2 mb-4">{emailError}</p>
+    {/if}
+    
+    <input
+      type="tel"
+      placeholder="Phone Number"
+      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+      class:invalid-input={phoneError}
+      class:shake={phoneError}
+      bind:value={userPhone}
+    />
+    {#if phoneError}
+      <p class="text-red-500 mt-2 mb-4">{phoneError}</p>
+    {/if}
       <div class="flex justify-between items-center">
         <button
           type="button"
@@ -453,20 +558,22 @@
         >
           <i class="fas fa-arrow-left"></i>
         </button>
-  
+ 
         <!-- Conditionally show the throbber or the button -->
         {#if isLoading}
-          <div class="spinner-border text-yellow-500" role="status">
+           <div class="spinner-border text-yellow-500" role="status">
             <span class="sr-only">Loading...</span>
           </div>
+ 
         {:else}
-          <button
+           <button
             type="button"
             on:click={handleCreateLink}
             class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
           >
             See Custom Link
           </button>
+ 
         {/if}
       </div>
   
@@ -474,6 +581,9 @@
         <p class="text-red-500 mt-4">{error}</p>
       {/if}
     {/if}
-  </form>
+ 
+
+
+
 </section>
-</main>  s
+</main>  

@@ -24,7 +24,7 @@
     let shouldSearch = false;
 
     // API base URL
-    const API_BASE_URL = 'https://tributestream.com/wp-json';
+    const API_BASE_URL = 'https://127.0.0.1:8080/wp-json';
     
     // Function to handle the search and redirect to the results page
     async function handleSearch() {
@@ -244,7 +244,7 @@
         const pageId = await createPage(token);
     
         console.log('Fetching created page data');
-        const response = await fetch(`https://tributestream.com/wp-json/wp/v2/pages/${pageId}`);
+        const response = await fetch(`https://127.0.0.1:8080/wp-json/wp/v2/pages/${pageId}`);
         const page = await response.json();
     
         console.log('Page created:', pageId);
@@ -252,8 +252,8 @@
       
         // Redirect to the page using the slug
         if (page.slug) {
-          console.log('Redirecting to:', `https://tributestream.com/${page.slug}`);
-          window.location.href = `https://tributestream.com/${page.slug}`;
+          console.log('Redirecting to:', `https://127.0.0.1:8080/${page.slug}`);
+          window.location.href = `https://127.0.0.1:8080/${page.slug}`;
         } else {
           console.error('Slug not found in page data');
           error = 'Slug not found';
@@ -453,7 +453,7 @@
                 </div>
             {:else}
                 <div class="flex items-center justify-center mb-4">
-                    <span class="text-white">http://www.Tributestream.com/celebration-of-life-for-{#if isEditing}
+                    <span class="text-white">http://www.127.0.0.1:8080/celebration-of-life-for-{#if isEditing}
                         <input
                             type="text"
                             class="px-2 py-1 text-gray-900 rounded-md"

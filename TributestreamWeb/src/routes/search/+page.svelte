@@ -18,7 +18,7 @@
     async function performSearch() {
         isLoading = true;
         try {
-            const response = await fetch(`https://tributestream.com/wp-json/wp/v2/search?search=${encodeURIComponent(searchQuery)}&page=${currentPage}`);
+            const response = await fetch(`https://127.0.0.1:8080/wp-json/wp/v2/search?search=${encodeURIComponent(searchQuery)}&page=${currentPage}`);
             if (!response.ok) throw new Error('Search failed');
             const data = await response.json();
             searchResults = data;

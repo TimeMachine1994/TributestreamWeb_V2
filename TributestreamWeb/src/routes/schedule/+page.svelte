@@ -43,7 +43,7 @@
           
           {#if lovedOneName}
               <p class="text-center font-italic">
-                  https://tributestream.com/{lovedOneName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}
+                  https://127.0.0.1:8080/{lovedOneName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}
               </p>
           {/if}
       </div>
