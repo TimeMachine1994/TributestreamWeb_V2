@@ -3,6 +3,7 @@
   //*************/ START import statements and variables /**************/
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import * as yup from 'yup';
 
   // State variables
   let lovedOneName = '';
@@ -19,9 +20,20 @@
   let nameError = '';
   let emailError = '';
   let phoneError = '';
+  let errors = {};
+
+  //*************/ START Yup Schema (added 10-17-24)/**************/
+
+  const schema = yup.object().shape({
+    userName: yup.string().required('Please enter your name'),
+    userEmail: yup.string().email('Invalid email').required('Please enter your email address'),
+    userPhone: yup.string().required('Please enter your phone number')
+  });
+  //*************/ END Yup Schema (added 10-17-24)/**************/
+
 
   // API base URL
-  const API_BASE_URL = 'https://127.0.0.1:8080/wp-json';
+  const API_BASE_URL = 'https://tributestream.com/wp-json';
 
   //*************/ END import statements and variables /**************/
 
@@ -138,6 +150,16 @@
     }
   }
   
+  async function handleSubmit() {
+    try {
+      await schema.validate({ userName, userEmail, userPhone }, { abortEarly: false });
+      // proceed with registration if valid
+    } catch (validationErrors) {
+      validationErrors.inner.forEach(error => {
+        errors[error.path] = error.message;
+      });
+    }
+  }
   //*************/ END handle search and redirect to the results page /**************/
 
   //*************/ START create page and link /**************/
@@ -208,7 +230,7 @@
 
       // Redirect to the page using the slug
       if (page.slug) {
-        window.location.href = `https://127.0.0.1:8080/celebration-of-life-for${page.slug}`;
+        window.location.href = `https://tributestream.com/celebration-of-life-for${page.slug}`;
       } else {
         error = 'Slug not found';
       }
@@ -402,188 +424,143 @@ function handleNextPage() {
     border: 2px solid red;
   }
 </style>
-<!-- START video background section -->
+
+
 <main class="overflow-hidden">
   <section class="relative bg-gray-900 text-white overf">
     <video
-    autoplay
-    muted
-    loop
-    playsinline
-    class="absolute inset-0 w-full h-full object-cover z-0"
-    class:blurred={isBlurred}
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover z-0"
+      class:blurred={isBlurred}
     >
       <source
         src="https://pub-f5d8194fe58b4bb69fc710f4fecb334f.r2.dev/video.mp4"
         type="video/mp4"
-        />
-
-
-     Your browser does not support the video tag.
+      />
+      Your browser does not support the video tag.
     </video>
-    <!-- this is the black overlay to  make the white text readable on the homepage over the video -->
+
+    <!-- Black overlay -->
     <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
-  <!-- END video background section -->
 
-
-  <!-- START hero header text-->
-
-  <div
-    class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8 font-['Fanwood_Text']"
-  >
-  <h1 class="text-4xl md:text-6xl text-center mb-4">
-    We Connect Families, One Link at a Time.
-  </h1>
-
-  <p class="text-center mb-8 text-lg md:text-xl">
-  <!-- END hero header text-->
-
-
-
-  <!-- START first page -->
-  {#if !showSecondPage}
-  <form>
-    <div class="flex flex-col items-center justify-center mb-4 ">
-    Tributestream broadcasts high quality audio and video of your loved
-    one's celebration of life. <br />
-    Enter your loved one's name below to begin your journey with
-    Tributestream.
-  </div>
-  <input
-  type="text"
-  placeholder="Loved One's Name Here"
-  class="w-full px-4 py-2 text-gray-900 rounded-md mb-4 text-center max-w-md"
-  class:invalid-input={isInvalid}
-  class:shake={isInvalid}
-  bind:value={lovedOneName}
-/>
-
-  <div class="flex space-x-4 justify-center">
-    <button
-      on:click={handleNextPage}
-      class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
-      >
-      Create Tribute
-    </button>
-    <button
-      on:click={() => {
-      handleSearch();
-      showSecondPage = true;
-      }}
-      class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
-      >
-      Search Streams
-      </button>
+    <!-- Hero header text -->
+    <div
+      class="relative z-20 flex flex-col items-center justify-start h-screen min-w-screen pt-8 font-['Fanwood_Text']"
+    >
+      <h1 class="text-4xl md:text-6xl text-center mb-4">
+        We Connect Families, One Link at a Time.
+      </h1>
+      <p class="text-center mb-8 text-lg md:text-xl"></p>
     </div>
-  </form>
-  <!-- END first page -->
 
-  {:else}
+    <!-- First page form -->
+    {#if !showSecondPage}
+      <form>
+        <div class="flex flex-col items-center justify-center mb-4">
+          Tributestream broadcasts high quality audio and video of your loved one's celebration of life. <br />
+          Enter your loved one's name below to begin your journey with Tributestream.
+        </div>
+        <input
+          type="text"
+          placeholder="Loved One's Name Here"
+          class="w-full px-4 py-2 text-gray-900 rounded-md mb-4 text-center max-w-md"
+          class:invalid-input={isInvalid}
+          class:shake={isInvalid}
+          bind:value={lovedOneName}
+        />
+        <div class="flex space-x-4 justify-center">
+          <button
+            on:click={handleNextPage}
+            class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
+          >
+            Create Tribute
+          </button>
+          <button
+            on:click={() => {
+              handleSearch();
+              showSecondPage = true;
+            }}
+            class="bg-[#D5BA7F] text-black py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
+          >
+            Search Streams
+          </button>
+        </div>
+      </form>
+    
 
-      <!-- START second page -->
-    <div class=""> Your Loved One's Custom Link:</div>
-    <div class="flex items-center justify-center mb-4">
-      <span class="text-white">
-        http://www.127.0.0.1:8080/celebration-of-life-for-
-      </span>
+    <!-- Second page form -->
+    {:else}
+      <div> Your Loved One's Custom Link:</div>
+      <div class="flex items-center justify-center mb-4">
+        <span class="text-white">http://www.tributestream.com/celebration-of-life-for-</span>
         {#if isEditing}
-           <input
+          <input
             type="text"
             class="px-2 py-1 text-gray-900 rounded-md"
             bind:value={tempSlugifiedName}
-          />          
- 
+          />
         {:else}
           <span class="text-white">{slugifiedName}</span>
         {/if}
-        {#if isEditing}
-        
 
+        {#if isEditing}
           <button class="ml-2 text-green-500" on:click={handleSaveNameChange}>
             <i class="fas fa-check"></i>
           </button>
           <button class="ml-2 text-red-500" on:click={handleDiscardNameChange}>
             <i class="fas fa-times"></i>
           </button>
- 
         {:else}
- 
           <button class="ml-2 text-white" on:click={handleEditName}>
             <i class="fas fa-pencil-alt"></i>
           </button>
- 
-        {/if}
- 
-      </div>
-      <input
-      type="text"
-      placeholder="Your Name"
-      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-      class:invalid-input={nameError}
-      class:shake={nameError}
-      bind:value={userName}
-    />
-    {#if nameError}
-      <p class="text-red-500 mt-2 mb-4">{nameError}</p>
-    {/if}
-    
-    <input
-      type="email"
-      placeholder="Email Address"
-      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-      class:invalid-input={emailError}
-      class:shake={emailError}
-      bind:value={userEmail}
-    />
-    {#if emailError}
-      <p class="text-red-500 mt-2 mb-4">{emailError}</p>
-    {/if}
-    
-    <input
-      type="tel"
-      placeholder="Phone Number"
-      class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
-      class:invalid-input={phoneError}
-      class:shake={phoneError}
-      bind:value={userPhone}
-    />
-    {#if phoneError}
-      <p class="text-red-500 mt-2 mb-4">{phoneError}</p>
-    {/if}
-      <div class="flex justify-between items-center">
-        <button
-          type="button"
-          on:click={handleGoBack}
-          class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-md"
-        >
-          <i class="fas fa-arrow-left"></i>
-        </button>
- 
-        <!-- Conditionally show the throbber or the button -->
-        {#if isLoading}
-           <div class="spinner-border text-yellow-500" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
- 
-        {:else}
-           <button
-            type="button"
-            on:click={handleCreateLink}
-            class="bg-[#D5BA7F] text-black font-bold py-2 px-4 border border-transparent rounded-lg hover:text-black hover:shadow-[0_0_10px_4px_#D5BA7F] transition-all duration-300 ease-in-out"
-          >
-            See Custom Link
-          </button>
- 
         {/if}
       </div>
-  
-      {#if error}
-        <p class="text-red-500 mt-4">{error}</p>
-      {/if}
+
+      <!-- Form for entering user details -->
+      <form on:submit|preventDefault={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Your Name"
+          class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+          class:invalid-input={errors.userName}
+          class:shake={errors.userName}
+          bind:value={userName}
+        />
+        {#if errors.userName}
+          <p class="text-red-500 mt-2 mb-4">{errors.userName}</p>
+        {/if}
+
+        <input
+          type="email"
+          placeholder="Email Address"
+          class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+          class:invalid-input={errors.userEmail}
+          class:shake={errors.userEmail}
+          bind:value={userEmail}
+        />
+        {#if errors.userEmail}
+          <p class="text-red-500 mt-2 mb-4">{errors.userEmail}</p>
+        {/if}
+
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          class="w-full px-4 py-2 text-gray-900 rounded-md mb-4"
+          class:invalid-input={errors.userPhone}
+          class:shake={errors.userPhone}
+          bind:value={userPhone}
+        />
+        {#if errors.userPhone}
+          <p class="text-red-500 mt-2 mb-4">{errors.userPhone}</p>
+        {/if}
+
+        <button type="submit">Submit</button>
+      </form>
     {/if}
- 
 
-
-
-</section>
-</main>  
+  </section> <!-- END closing tag of section -->
+</main>

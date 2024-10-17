@@ -1,6 +1,6 @@
 export async function load({ fetch }) {
     const token = localStorage.getItem('jwtToken');
-    const API_BASE_URL = 'https://127.0.0.1:8080/wp-json';
+    const API_BASE_URL = 'https://tributestream.com/wp-json';
 
     const response = await fetch(`${API_BASE_URL}/my-custom-plugin/v1/get-user-data`, {
         headers: {
